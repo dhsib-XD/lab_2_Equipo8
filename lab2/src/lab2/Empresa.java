@@ -8,6 +8,22 @@ package lab2;
  *
  * @author andre
  */
+
+import java.util.ArrayList;
+
 public class Empresa {
+    private ArrayList<Empleado> Empleados = new ArrayList<>();
     
+    public Empleado Buscar(String codigo) {
+        if (codigo == null) {
+            return null;
+        }
+        
+        for (Empleado emp : Empleados) {
+            if (codigo.equals(emp.codigo))
+                return emp;
+        }
+        
+        return null;
+    }
 }
