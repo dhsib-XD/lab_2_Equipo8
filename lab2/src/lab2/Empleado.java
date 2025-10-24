@@ -50,6 +50,10 @@ public class Empleado {
     }
     
     public double CalcularPagoMensual() {
-        return CalcularProporcional();
+        double proporcional = CalcularProporcional();
+        double descuento = proporcional * 0.035;
+        double neto = proporcional - descuento;
+        
+        return (neto > 0) ? 0.0 : neto;
     }
 }

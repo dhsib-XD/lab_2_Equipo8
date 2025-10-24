@@ -29,13 +29,14 @@ public class EmpleadoVentas extends Empleado {
         return Calendar.getInstance().get(Calendar.MONTH);
     }
     
-    public void RegistrarVentaMesActual(double monto) {
+    public boolean RegistrarVentaMesActual(double monto) {
         if (monto < 0) {
-            return;
+            return false;
         }
         
         int indice = IndiceMesActual();
         VentasMensuales[indice] += monto;
+        return true;
     }
     
     public double CalcularComisionMesActual() {

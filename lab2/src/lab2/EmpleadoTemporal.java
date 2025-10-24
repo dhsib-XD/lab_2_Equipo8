@@ -1,33 +1,26 @@
 package lab2;
 
 import java.util.Calendar;
-import java.util.Date;
 
-public class EmpleadoTemporal {
-        private String codigo;
-        private String nombre;
-        private double salarioBase;
+public class EmpleadoTemporal extends Empleado {
         private double horasTrabajadas;
         private Calendar fechaContratacion;
         private Calendar fechaFinContrato;
 
-        public EmpleadoTemporal(String codigo, String nombre, double salarioBase, double horasTrabajadas, Date fechaContratacion, Date fechaFin) {
-            this.codigo = codigo;
-            this.nombre = nombre;
-            this.salarioBase = salarioBase;
-            this.horasTrabajadas = horasTrabajadas;
-
-            this.fechaContratacion = Calendar.getInstance();
-            this.fechaContratacion.setTime(fechaContratacion);
+        public EmpleadoTemporal(String codigo, String nombre, double salariobase, Calendar fechacontra, Calendar fechaFin) {
+            super(codigo, nombre, fechacontra, salariobase);
+            horasTrabajadas = 0;
 
             this.fechaFinContrato = Calendar.getInstance();
-            this.fechaFinContrato.setTime(fechaFin);
+            this.fechaFinContrato.getTime();
+            
+            fechacontra.getTime();
         }
 
         public double calcularPago() {
             Calendar hoy = Calendar.getInstance();
             if (!hoy.after(fechaFinContrato)) {
-                double pago = salarioBase * (horasTrabajadas / 160.0);
+                double pago = salariobase * (horasTrabajadas / 160.0);
                 double deduccion = pago * 0.035;
                 return pago - deduccion;
             } else {
@@ -38,7 +31,7 @@ public class EmpleadoTemporal {
         public String mostrarInformacion() {
             return "Código: " + codigo +
                    "\nNombre: " + nombre +
-                   "\nSalario Base: $" + salarioBase +
+                   "\nSalario Base: $" + salariobase +
                    "\nHoras Trabajadas: " + horasTrabajadas +
                    "\nPago Calculado: $" + calcularPago() +
                    "\nFecha Contratación: " + fechaContratacion.getTime() +
