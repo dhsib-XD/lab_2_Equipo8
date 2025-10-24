@@ -26,4 +26,18 @@ public class Empresa {
         
         return null;
     }
+
+    protected void registrarEmpleado() {
+        
+    }
+
+    protected void registrarHoras() {
+    }
+
+    protected void registrarVenta() {
+    }
+
+    protected void actualizarFinContrato() {
+    }
+
 }
