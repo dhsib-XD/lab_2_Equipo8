@@ -29,7 +29,7 @@ public class Empleado {
         if (horas > 0) {
             return horastrabajadas += horas;
         } else {
-            return horastrabajadas = horastrabajadas;
+            return horastrabajadas;
         }
 
     }

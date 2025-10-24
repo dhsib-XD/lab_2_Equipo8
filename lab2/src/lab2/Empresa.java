@@ -85,8 +85,46 @@ public class Empresa {
         if (emp == null) {
             return false;
         }
+        ((EmpleadoVentas)emp).RegistrarVentaMesActual(monto);
+        return true;
     }
 
-    protected void actualizarFinContrato() {
+    protected boolean actualizarFinContrato(String codigo, Calendar NuevaFecha) {
+        Empleado emp = Buscar(codigo);
+        
+        if (emp == null) {
+            return false;
+        }
+        if (!(emp instanceof EmpleadoTemporal)) {
+            return false;
+        }
+        ((EmpleadoTemporal)emp).ActualizarFechaFinContrato(NuevaFecha);
+        return true;
     }
+    
+    public String reporte() {
+        String reporte = "==== REPORTE DE EMPLEADOS ===\n";
+        int empest = 0;
+        int empven = 0;
+        int emptemp = 0;
+        
+        for (Empleado emp : Empleados) {
+            if (emp instanceof EmpleadoTemporal) {
+                reporte += ((EmpleadoTemporal)emp).mostrarInformacion() + "\n";
+                emptemp++;
+            } else if (emp instanceof EmpleadoVentas) {
+                reporte += ((EmpleadoVentas)emp).MostrarInfo() + "\n";
+                empven++;
+            } else {
+                reporte += emp.MostrarInfo() + " | Tipo: Estandar | Pago: " + emp.CalcularPagoMensual() + "\n";
+                empest++;
+            }
+        }
+        
+        reporte += "\nTotales -> Estandar: " + empest + " | Temporales: " + emptemp + " | Ventas: " + empven;
+        
+        return reporte;
+    }
+    
+    
 }

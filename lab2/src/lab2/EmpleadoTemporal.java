@@ -45,6 +45,14 @@ public class EmpleadoTemporal extends Empleado {
             double pago = salarioBase * (horasTrabajadas / 160.0);
             return pago - pago * 0.035;
         }
+        
+        public void ActualizarFechaFinContrato(Calendar nuevafecha) {
+            if (nuevafecha == null) {
+                this.fechaFinContrato = Calendar.getInstance();
+            } else {
+                this.fechaContratacion.setTime(nuevafecha.getTime());
+            }
+        }
     }
 
     
