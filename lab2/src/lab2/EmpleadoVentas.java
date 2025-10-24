@@ -12,7 +12,7 @@ package lab2;
 import java.util.Calendar;
 
 public class EmpleadoVentas extends Empleado {
-
+protected String tipoEmpleado = "Ventas";
     private double[] VentasMensuales = new double[12];
     private double TasaComision;
     

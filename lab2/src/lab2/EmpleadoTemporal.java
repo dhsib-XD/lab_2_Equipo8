@@ -10,6 +10,7 @@ public class EmpleadoTemporal extends Empresa {
         private double horasTrabajadas;
         private Calendar fechaContratacion;
         private Calendar fechaFinContrato;
+        protected String tipoEmpleado = "Temporal";
 
         public EmpleadoTemporal(String codigo, String nombre, double salarioBase, double horasTrabajadas, Date fechaContratacion, Date fechaFin) {
             this.codigo = codigo;
