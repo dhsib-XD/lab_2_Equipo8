@@ -124,7 +124,5 @@ public class Empresa {
         reporte += "\nTotales -> Estandar: " + empest + " | Temporales: " + emptemp + " | Ventas: " + empven;
         
         return reporte;
-    }
-    
-    
+    }    
 }

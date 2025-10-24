@@ -9,6 +9,7 @@ public class EmpleadoTemporal extends Empleado {
         private double horasTrabajadas;
         private Calendar fechaContratacion;
         private Calendar fechaFinContrato;
+        protected String tipoEmpleado = "Temporal";
 
         public EmpleadoTemporal(String codigo, String nombre, double salariobase, Calendar fechacontra, Calendar fechaFin) {
             super(codigo, nombre, fechacontra, salariobase);

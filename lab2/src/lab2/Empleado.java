@@ -13,6 +13,7 @@ import java.util.Calendar;
 public class Empleado {
     protected String codigo;
     String nombre;
+    protected String tipoEmpleado = "Estándar";
     Calendar fechacontra;
     double salariobase;
     double horastrabajadas;
@@ -47,6 +48,7 @@ public class Empleado {
     public String MostrarInfo() {
         return "Codigo del empleado: " + codigo + " \nNombre del Empleado:" + nombre + "\nFecha de contratacion: " + fechacontra.getTime();
 
+        
     }
     
     public double CalcularPagoMensual() {
