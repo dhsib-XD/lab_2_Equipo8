@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 /**
  *
- * @author CarlosXl
+ * @author andrea
  */
 public class Empleado {
     protected String codigo;
@@ -45,7 +45,7 @@ public class Empleado {
     }
 
     public String MostrarInfo() {
-        return "Codigo del empleado: " + codigo + " Nombre del Empleado:" + nombre + "Fecha de contratacion: " + fechacontra.getTime();
+        return "Codigo del empleado: " + codigo + " \nNombre del Empleado:" + nombre + "\nFecha de contratacion: " + fechacontra.getTime();
 
     }
     
