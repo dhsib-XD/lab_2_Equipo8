@@ -8,68 +8,72 @@ package lab2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Calendar;
+import java.util.Date;
 /**
  *
  * @author andre
  */
 public class EmpresaMain extends JFrame {
 
-    private Empresa lab2;
+  private Empresa lab2;
 
+    // Campos comunes
     private JTextField txtCodigo, txtNombre, txtSalario, txtHoras, txtMonto, txtComision;
     private JComboBox<String> cboTipo;
+    private JSpinner spinnerFechaFin;
     private JButton btnRegistrar, btnHoras, btnVenta, btnContrato, btnReporte;
 
-    public EmpresaMain) {
+    public EmpresaMain() {
         lab2 = new Empresa();
         setTitle("Gestión de Empleados - Empresa XYZ");
-        setSize(650, 450);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(700, 450);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        // Layout principal
+        setLayout(new BorderLayout(10, 10));
+
+        // === Título ===
         JLabel lblTitulo = new JLabel("GESTIÓN DE EMPLEADOS", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
         lblTitulo.setForeground(new Color(0, 102, 153));
         add(lblTitulo, BorderLayout.NORTH);
 
-        JPanel panelCentral = new JPanel(new GridLayout(7, 2, 5, 5));
-        panelCentral.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        // === Panel de datos ===
+        JPanel panelDatos = new JPanel();
+        panelDatos.setLayout(new BoxLayout(panelDatos, BoxLayout.Y_AXIS));
+        panelDatos.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
 
-        panelCentral.add(new JLabel("Código:"));
-        txtCodigo = new JTextField();
-        panelCentral.add(txtCodigo);
+        txtCodigo = addLabeledTextField(panelDatos, "Código:");
+        txtNombre = addLabeledTextField(panelDatos, "Nombre:");
+        txtSalario = addLabeledTextField(panelDatos, "Salario base:");
+        txtHoras = addLabeledTextField(panelDatos, "Horas trabajadas:");
 
-        panelCentral.add(new JLabel("Nombre:"));
-        txtNombre = new JTextField();
-        panelCentral.add(txtNombre);
-
-        panelCentral.add(new JLabel("Salario base:"));
-        txtSalario = new JTextField();
-        panelCentral.add(txtSalario);
-
-        panelCentral.add(new JLabel("Tipo de empleado:"));
         cboTipo = new JComboBox<>(new String[]{"Estándar", "Temporal", "Ventas"});
-        panelCentral.add(cboTipo);
+        JPanel tipoPanel = new JPanel(new BorderLayout(5,5));
+        tipoPanel.add(new JLabel("Tipo de empleado:"), BorderLayout.WEST);
+        tipoPanel.add(cboTipo, BorderLayout.CENTER);
+        panelDatos.add(tipoPanel);
+        panelDatos.add(Box.createVerticalStrut(5));
 
-        panelCentral.add(new JLabel("Horas trabajadas:"));
-        txtHoras = new JTextField();
-        panelCentral.add(txtHoras);
+        // Panel condicional para ventas y temporal
+        txtMonto = addLabeledTextField(panelDatos, "Monto de venta (solo ventas):");
+        txtComision = addLabeledTextField(panelDatos, "Tasa comisión (solo ventas):");
 
-        panelCentral.add(new JLabel("Monto de venta (solo ventas):"));
-        txtMonto = new JTextField();
-        panelCentral.add(txtMonto);
+        spinnerFechaFin = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(spinnerFechaFin, "dd/MM/yyyy");
+        spinnerFechaFin.setEditor(editor);
+        JPanel fechaPanel = new JPanel(new BorderLayout(5,5));
+        fechaPanel.add(new JLabel("Fecha fin contrato (solo temporal):"), BorderLayout.WEST);
+        fechaPanel.add(spinnerFechaFin, BorderLayout.CENTER);
+        panelDatos.add(fechaPanel);
 
-        panelCentral.add(new JLabel("Tasa comisión (solo ventas, ej. 0.05):"));
-        txtComision = new JTextField();
-        panelCentral.add(txtComision);
+        add(panelDatos, BorderLayout.CENTER);
 
-        add(panelCentral, BorderLayout.CENTER);
-
-        JPanel panelBotones = new JPanel(new GridLayout(1, 5, 5, 5));
-        btnRegistrar = new JButton("Registrar Empleado");
+        // === Panel de botones ===
+        JPanel panelBotones = new JPanel(new GridLayout(1, 5, 10, 10));
+        btnRegistrar = new JButton("Registrar");
         btnHoras = new JButton("Registrar Horas");
         btnVenta = new JButton("Registrar Venta");
         btnContrato = new JButton("Actualizar Contrato");
@@ -83,40 +87,65 @@ public class EmpresaMain extends JFrame {
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        // === EVENTOS ===
+        // === Eventos ===
         btnRegistrar.addActionListener(e -> registrarEmpleado());
-        btnHoras.addActionListener(e -> empresa.registrarHoras(txtCodigo.getText(), Double.parseDouble(txtHoras.getText())));
-        btnVenta.addActionListener(e -> empresa.registrarVenta(txtCodigo.getText(), Double.parseDouble(txtMonto.getText())));
+        btnHoras.addActionListener(e -> lab2.registrarHoras(Integer.parseInt(txtCodigo.getText()), Double.parseDouble(txtHoras.getText())));
+        btnVenta.addActionListener(e -> lab2.registrarVenta(Integer.parseInt(txtCodigo.getText()), Double.parseDouble(txtMonto.getText())));
         btnContrato.addActionListener(e -> {
-            Calendar nueva = new GregorianCalendar(2025, Calendar.DECEMBER, 31);
-            empresa.actualizarFinContrato(txtCodigo.getText(), nueva);
+            Date fecha = (Date) spinnerFechaFin.getValue();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(fecha);
+            lab2.actualizarFinContrato(Integer.parseInt(txtCodigo.getText()), cal);
         });
-        btnReporte.addActionListener(e -> empresa.generarReporte());
+        btnReporte.addActionListener(e -> lab2.generarReporte());
+
+        // Mostrar solo campos según tipo
+        cboTipo.addActionListener(e -> actualizarVisibilidadCampos());
+        actualizarVisibilidadCampos();
+    }
+
+    private JTextField addLabeledTextField(JPanel panel, String label) {
+        JPanel p = new JPanel(new BorderLayout(5,5));
+        JTextField txt = new JTextField();
+        p.add(new JLabel(label), BorderLayout.WEST);
+        p.add(txt, BorderLayout.CENTER);
+        panel.add(p);
+        panel.add(Box.createVerticalStrut(5));
+        return txt;
+    }
+
+    private void actualizarVisibilidadCampos() {
+        String tipo = (String) cboTipo.getSelectedItem();
+        txtMonto.setEnabled(tipo.equals("Ventas"));
+        txtComision.setEnabled(tipo.equals("Ventas"));
+        spinnerFechaFin.setEnabled(tipo.equals("Temporal"));
     }
 
     private void registrarEmpleado() {
         try {
-            String codigo = txtCodigo.getText();
+            int codigo = Integer.parseInt(txtCodigo.getText());
             String nombre = txtNombre.getText();
             double salario = Double.parseDouble(txtSalario.getText());
             String tipo = (String) cboTipo.getSelectedItem();
 
             if (tipo.equals("Estándar")) {
-                empresa.registrarEmpleado(new Empleado(codigo, nombre, salario));
+                lab2.registrarEmpleado(new Empleado(codigo, nombre, salario));
             } else if (tipo.equals("Temporal")) {
-                Calendar fin = new GregorianCalendar(2025, Calendar.DECEMBER, 31);
-                empresa.registrarEmpleado(new EmpleadoTemporal(codigo, nombre, salario, fin));
+                Date fecha = (Date) spinnerFechaFin.getValue();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(fecha);
+                lab2.registrarEmpleado(new EmpleadoTemporal(codigo, nombre, salario, cal));
             } else {
                 double tasa = Double.parseDouble(txtComision.getText());
-                empresa.registrarEmpleado(new EmpleadoVentas(codigo, nombre, salario, tasa));
+                lab2.registrarEmpleado(new EmpleadoVentas(codigo, nombre, salario, tasa));
             }
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new FrmEmpresa().setVisible(true));
+        SwingUtilities.invokeLater(() -> new EmpresaMain().setVisible(true));
     }
-
 }
