@@ -10,7 +10,7 @@ import java.util.Calendar;
  *
  * @author andrea
  */
-public class Empleado {
+public class Empleado extends Empresa {
     protected String codigo;
     String nombre;
     Calendar fechacontra;
@@ -52,4 +52,5 @@ public class Empleado {
     public double CalcularPagoMensual() {
         return CalcularProporcional();
     }
+    
 }

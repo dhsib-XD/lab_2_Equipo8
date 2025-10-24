@@ -3,7 +3,7 @@ package lab2;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EmpleadoTemporal {
+public class EmpleadoTemporal extends Empresa {
         private String codigo;
         private String nombre;
         private double salarioBase;
@@ -44,6 +44,11 @@ public class EmpleadoTemporal {
                    "\nFecha Contratación: " + fechaContratacion.getTime() +
                    "\nFecha Fin Contrato: " + fechaFinContrato.getTime();
         }
+        
+public double calcularPagoMensual() {
+    double pago = salarioBase * (horasTrabajadas / 160.0);
+    return pago - pago * 0.035;
+}
     }
 
     

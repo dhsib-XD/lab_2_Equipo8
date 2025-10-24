@@ -80,4 +80,5 @@ public class EmpleadoVentas extends Empleado {
     public String MostrarInfo() {
         return super.MostrarInfo() + " | Tipo: Ventas | Comision mes: " + CalcularComisionMesActual() + " | Ventas año: " + CalcularVentasAnuales() + " | Pago: " + CalcularPagoMensual();
     }
+    
 }
