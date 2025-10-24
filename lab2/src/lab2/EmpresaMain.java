@@ -15,9 +15,9 @@ import java.util.Date;
  * @author andre
  */
 public class EmpresaMain extends JFrame {
+      
     private Empresa lab2;
 
-    // Campos comunes
     private JTextField txtCodigo, txtNombre, txtSalario, txtHoras, txtMonto, txtComision;
     private JComboBox<String> cboTipo;
     private JSpinner spinnerFechaFin;
@@ -25,25 +25,21 @@ public class EmpresaMain extends JFrame {
 
     public EmpresaMain() {
         lab2 = new Empresa();
-        setTitle("Gestión de Empleados - Empresa G-8");
-        setSize(700, 450);
+        setTitle("Gestión de Empleados - Empresa G-8"); // G-8 porque somos el grupo 8
+        setSize(750, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        // Layout principal
         setLayout(new BorderLayout(10, 10));
 
-        // === Título ===
         JLabel lblTitulo = new JLabel("GESTIÓN DE EMPLEADOS", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTitulo.setForeground(new Color(0, 102, 153));
+        lblTitulo.setForeground(new Color(0, 70, 140));
         add(lblTitulo, BorderLayout.NORTH);
 
-        // === Panel de datos ===
         JPanel panelDatos = new JPanel();
         panelDatos.setLayout(new BoxLayout(panelDatos, BoxLayout.Y_AXIS));
-        panelDatos.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
-        panelDatos.setBackground(new Color(255, 255, 200)); // Amarillo claro
+        panelDatos.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+        panelDatos.setBackground(new Color(230, 230, 230));
 
         txtCodigo = addLabeledTextField(panelDatos, "Código:");
         txtNombre = addLabeledTextField(panelDatos, "Nombre:");
@@ -52,47 +48,55 @@ public class EmpresaMain extends JFrame {
 
         cboTipo = new JComboBox<>(new String[]{"Estándar", "Temporal", "Ventas"});
         JPanel tipoPanel = new JPanel(new BorderLayout(5, 5));
-        tipoPanel.setBackground(new Color(255, 255, 200));
+        tipoPanel.setBackground(new Color(230, 230, 230));
         tipoPanel.add(new JLabel("Tipo de empleado:"), BorderLayout.WEST);
         tipoPanel.add(cboTipo, BorderLayout.CENTER);
         panelDatos.add(tipoPanel);
         panelDatos.add(Box.createVerticalStrut(5));
 
-        // Panel condicional para ventas y temporal
         txtMonto = addLabeledTextField(panelDatos, "Monto de venta (solo ventas):");
         txtComision = addLabeledTextField(panelDatos, "Tasa comisión (solo ventas):");
 
         spinnerFechaFin = new JSpinner(new SpinnerDateModel());
         JSpinner.DateEditor editor = new JSpinner.DateEditor(spinnerFechaFin, "dd/MM/yyyy");
         spinnerFechaFin.setEditor(editor);
-        spinnerFechaFin.getEditor().getComponent(0).setBackground(new Color(255, 255, 220));
+        spinnerFechaFin.getEditor().getComponent(0).setBackground(Color.WHITE);
 
         JPanel fechaPanel = new JPanel(new BorderLayout(5, 5));
-        fechaPanel.setBackground(new Color(255, 255, 200));
+        fechaPanel.setBackground(new Color(230, 230, 230));
         fechaPanel.add(new JLabel("Fecha fin contrato (solo temporal):"), BorderLayout.WEST);
         fechaPanel.add(spinnerFechaFin, BorderLayout.CENTER);
         panelDatos.add(fechaPanel);
 
         add(panelDatos, BorderLayout.CENTER);
 
-        // === Panel de botones ===
         JPanel panelBotones = new JPanel(new GridLayout(1, 5, 10, 10));
-        panelBotones.setBackground(new Color(255, 255, 200));
+        panelBotones.setBackground(new Color(230, 230, 230));
         btnRegistrar = new JButton("Registrar");
         btnHoras = new JButton("Registrar Horas");
         btnVenta = new JButton("Registrar Venta");
         btnContrato = new JButton("Actualizar Contrato");
         btnReporte = new JButton("Generar Reporte");
 
+        Color btnColor = new Color(70, 130, 180);
+        btnRegistrar.setBackground(btnColor);
+        btnHoras.setBackground(btnColor);
+        btnVenta.setBackground(btnColor);
+        btnContrato.setBackground(btnColor);
+        btnReporte.setBackground(btnColor);
+        btnRegistrar.setForeground(Color.WHITE);
+        btnHoras.setForeground(Color.WHITE);
+        btnVenta.setForeground(Color.WHITE);
+        btnContrato.setForeground(Color.WHITE);
+        btnReporte.setForeground(Color.WHITE);
+
         panelBotones.add(btnRegistrar);
         panelBotones.add(btnHoras);
         panelBotones.add(btnVenta);
         panelBotones.add(btnContrato);
         panelBotones.add(btnReporte);
-
         add(panelBotones, BorderLayout.SOUTH);
 
-        // === Eventos ===
         btnRegistrar.addActionListener(e -> registrarEmpleado());
         btnHoras.addActionListener(e -> lab2.registrarHoras(txtCodigo.getText(), Double.parseDouble(txtHoras.getText())));
         btnVenta.addActionListener(e -> lab2.registrarVenta(txtCodigo.getText(), Double.parseDouble(txtMonto.getText())));
@@ -107,16 +111,15 @@ public class EmpresaMain extends JFrame {
             JOptionPane.showMessageDialog(this, rep);
         });
 
-        // Mostrar solo campos según tipo
         cboTipo.addActionListener(e -> actualizarVisibilidadCampos());
         actualizarVisibilidadCampos();
     }
 
     private JTextField addLabeledTextField(JPanel panel, String label) {
         JPanel p = new JPanel(new BorderLayout(5, 5));
-        p.setBackground(new Color(255, 255, 200));
+        p.setBackground(new Color(230, 230, 230));
         JTextField txt = new JTextField();
-        txt.setBackground(new Color(255, 255, 220));
+        txt.setBackground(Color.WHITE);
         p.add(new JLabel(label), BorderLayout.WEST);
         p.add(txt, BorderLayout.CENTER);
         panel.add(p);
@@ -138,7 +141,6 @@ public class EmpresaMain extends JFrame {
             double salario = Double.parseDouble(txtSalario.getText());
             String tipo = (String) cboTipo.getSelectedItem();
             Calendar hoy = Calendar.getInstance();
-
             boolean exito = false;
             if (tipo.equals("Estándar")) {
                 exito = lab2.registrarEstandar(codigo, nombre, hoy, salario);
@@ -147,28 +149,21 @@ public class EmpresaMain extends JFrame {
                 Calendar finContrato = Calendar.getInstance();
                 finContrato.setTime(fecha);
                 exito = lab2.registrarTemporal(codigo, nombre, hoy, salario, finContrato);
-            } else { // Ventas
+            } else {
                 double tasa = Double.parseDouble(txtComision.getText());
                 exito = lab2.registrarVentas(codigo, nombre, hoy, salario, tasa);
             }
-
             if (exito) {
                 JOptionPane.showMessageDialog(this, "Empleado registrado correctamente");
             } else {
                 JOptionPane.showMessageDialog(this, "Error: código duplicado o datos incorrectos");
             }
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
-    }
-    private void generarReporte(){
-        btnReporte.addActionListener(e -> lab2.reporte());
-
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new EmpresaMain().setVisible(true));
     }
-   
 }
