@@ -4,12 +4,13 @@
  */
 package lab2;
 
+import java.util.Calendar;
+
 /**
  *
  * @author Hp
  */
 
-import java.util.Calendar;
 
 public class EmpleadoVentas extends Empleado {
 

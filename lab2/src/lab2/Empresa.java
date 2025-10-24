@@ -80,7 +80,7 @@ public class Empresa {
         return true;
     }
 
-    protected void registrarVenta(String codigo, double monto) {
+    protected boolean registrarVenta(String codigo, double monto) {
         Empleado emp = Buscar(codigo);
         if (emp == null) {
             return false;
@@ -89,5 +89,4 @@ public class Empresa {
 
     protected void actualizarFinContrato() {
     }
-
 }
