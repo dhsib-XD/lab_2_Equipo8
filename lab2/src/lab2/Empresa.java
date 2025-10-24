@@ -9,5 +9,29 @@ package lab2;
  * @author andre
  */
 public class Empresa {
-    
+//1
+    protected void registrarEmpleado() {
+        
+    }
+//2
+    protected void registrarHoras() {
+    }
+//3
+    protected void registrarVenta() {
+    }
+//4
+    protected void actualizarFinContrato() {
+    }
+//5
+    protected void CalcularPagoMensual(){
+        
+    }
+ //6
+    protected void GenerarReportesdeEmpleados(){
+        
+    }
+ //7
+    protected void BuscarEmpleadosporCódigo(){
+        
+    }
 }
