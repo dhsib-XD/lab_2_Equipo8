@@ -5,18 +5,17 @@ package lab2;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
+
 /**
  *
  * @author andre
  */
 public class EmpresaMain extends JFrame {
-
-  private Empresa lab2;
+    private Empresa lab2;
 
     // Campos comunes
     private JTextField txtCodigo, txtNombre, txtSalario, txtHoras, txtMonto, txtComision;
@@ -26,7 +25,7 @@ public class EmpresaMain extends JFrame {
 
     public EmpresaMain() {
         lab2 = new Empresa();
-        setTitle("Gestión de Empleados - Empresa XYZ");
+        setTitle("Gestión de Empleados - Empresa G-8");
         setSize(700, 450);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -44,6 +43,7 @@ public class EmpresaMain extends JFrame {
         JPanel panelDatos = new JPanel();
         panelDatos.setLayout(new BoxLayout(panelDatos, BoxLayout.Y_AXIS));
         panelDatos.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+        panelDatos.setBackground(new Color(255, 255, 200)); // Amarillo claro
 
         txtCodigo = addLabeledTextField(panelDatos, "Código:");
         txtNombre = addLabeledTextField(panelDatos, "Nombre:");
@@ -51,7 +51,8 @@ public class EmpresaMain extends JFrame {
         txtHoras = addLabeledTextField(panelDatos, "Horas trabajadas:");
 
         cboTipo = new JComboBox<>(new String[]{"Estándar", "Temporal", "Ventas"});
-        JPanel tipoPanel = new JPanel(new BorderLayout(5,5));
+        JPanel tipoPanel = new JPanel(new BorderLayout(5, 5));
+        tipoPanel.setBackground(new Color(255, 255, 200));
         tipoPanel.add(new JLabel("Tipo de empleado:"), BorderLayout.WEST);
         tipoPanel.add(cboTipo, BorderLayout.CENTER);
         panelDatos.add(tipoPanel);
@@ -64,7 +65,10 @@ public class EmpresaMain extends JFrame {
         spinnerFechaFin = new JSpinner(new SpinnerDateModel());
         JSpinner.DateEditor editor = new JSpinner.DateEditor(spinnerFechaFin, "dd/MM/yyyy");
         spinnerFechaFin.setEditor(editor);
-        JPanel fechaPanel = new JPanel(new BorderLayout(5,5));
+        spinnerFechaFin.getEditor().getComponent(0).setBackground(new Color(255, 255, 220));
+
+        JPanel fechaPanel = new JPanel(new BorderLayout(5, 5));
+        fechaPanel.setBackground(new Color(255, 255, 200));
         fechaPanel.add(new JLabel("Fecha fin contrato (solo temporal):"), BorderLayout.WEST);
         fechaPanel.add(spinnerFechaFin, BorderLayout.CENTER);
         panelDatos.add(fechaPanel);
@@ -73,6 +77,7 @@ public class EmpresaMain extends JFrame {
 
         // === Panel de botones ===
         JPanel panelBotones = new JPanel(new GridLayout(1, 5, 10, 10));
+        panelBotones.setBackground(new Color(255, 255, 200));
         btnRegistrar = new JButton("Registrar");
         btnHoras = new JButton("Registrar Horas");
         btnVenta = new JButton("Registrar Venta");
@@ -90,16 +95,17 @@ public class EmpresaMain extends JFrame {
         // === Eventos ===
         btnRegistrar.addActionListener(e -> registrarEmpleado());
         btnHoras.addActionListener(e -> lab2.registrarHoras(txtCodigo.getText(), Double.parseDouble(txtHoras.getText())));
-
         btnVenta.addActionListener(e -> lab2.registrarVenta(txtCodigo.getText(), Double.parseDouble(txtMonto.getText())));
         btnContrato.addActionListener(e -> {
             Date fecha = (Date) spinnerFechaFin.getValue();
             Calendar cal = Calendar.getInstance();
             cal.setTime(fecha);
             lab2.actualizarFinContrato(txtCodigo.getText(), cal);
-
         });
-        btnReporte.addActionListener(e -> lab2.generarReporte());
+        btnReporte.addActionListener(e -> {
+            String rep = lab2.reporte();
+            JOptionPane.showMessageDialog(this, rep);
+        });
 
         // Mostrar solo campos según tipo
         cboTipo.addActionListener(e -> actualizarVisibilidadCampos());
@@ -107,8 +113,10 @@ public class EmpresaMain extends JFrame {
     }
 
     private JTextField addLabeledTextField(JPanel panel, String label) {
-        JPanel p = new JPanel(new BorderLayout(5,5));
+        JPanel p = new JPanel(new BorderLayout(5, 5));
+        p.setBackground(new Color(255, 255, 200));
         JTextField txt = new JTextField();
+        txt.setBackground(new Color(255, 255, 220));
         p.add(new JLabel(label), BorderLayout.WEST);
         p.add(txt, BorderLayout.CENTER);
         panel.add(p);
@@ -125,20 +133,29 @@ public class EmpresaMain extends JFrame {
 
     private void registrarEmpleado() {
         try {
-            int codigo = Integer.parseInt(txtCodigo.getText());
+            String codigo = txtCodigo.getText();
             String nombre = txtNombre.getText();
             double salario = Double.parseDouble(txtSalario.getText());
             String tipo = (String) cboTipo.getSelectedItem();
+            Calendar hoy = Calendar.getInstance();
 
+            boolean exito = false;
             if (tipo.equals("Estándar")) {
+                exito = lab2.registrarEstandar(codigo, nombre, hoy, salario);
             } else if (tipo.equals("Temporal")) {
                 Date fecha = (Date) spinnerFechaFin.getValue();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(fecha);
-                lab2.registrarEmpleado(new EmpleadoTemporal(codigo, nombre, salario, cal));
-            } else {
+                Calendar finContrato = Calendar.getInstance();
+                finContrato.setTime(fecha);
+                exito = lab2.registrarTemporal(codigo, nombre, hoy, salario, finContrato);
+            } else { // Ventas
                 double tasa = Double.parseDouble(txtComision.getText());
-                lab2.registrarEmpleado(new EmpleadoVentas(codigo, nombre, salario, tasa));
+                exito = lab2.registrarVentas(codigo, nombre, hoy, salario, tasa);
+            }
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Empleado registrado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: código duplicado o datos incorrectos");
             }
 
         } catch (Exception ex) {
@@ -149,4 +166,5 @@ public class EmpresaMain extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new EmpresaMain().setVisible(true));
     }
+   
 }
