@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 /**
  *
- * @author CarlosXl
+ * @author andrea
  */
 public class Empleado {
     protected int codigo;
