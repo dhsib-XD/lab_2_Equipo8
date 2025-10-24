@@ -11,13 +11,13 @@ import java.util.Calendar;
  * @author andrea
  */
 public class Empleado {
-    protected String codigo;
+    protected int codigo;
     String nombre;
     Calendar fechacontra;
     double salariobase;
     double horastrabajadas;
 
-    public Empleado(String codigo, String nombre, Calendar fechacontra, double salariobase) {
+    public Empleado(int codigo, String nombre, Calendar fechacontra, double salariobase) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.fechacontra = Calendar.getInstance();

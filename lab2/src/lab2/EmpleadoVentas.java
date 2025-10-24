@@ -17,7 +17,7 @@ public class EmpleadoVentas extends Empleado {
     private double[] VentasMensuales = new double[12];
     private double TasaComision;
     
-    public EmpleadoVentas(String codigo, String nombre, Calendar fechacontra, double salariobase, double TasaComision) {
+    public EmpleadoVentas(int codigo, String nombre, Calendar fechacontra, double salariobase, double TasaComision) {
         super(codigo, nombre, fechacontra, salariobase);
         this.TasaComision = Math.max(0.0, TasaComision);
         

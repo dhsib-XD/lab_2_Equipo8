@@ -3,14 +3,14 @@ package lab2;
 import java.util.Calendar;
 
 public class EmpleadoTemporal extends Empleado {
-        private String codigo;
+        private int codigo;
         private String nombre;
         private double salarioBase;
         private double horasTrabajadas;
         private Calendar fechaContratacion;
         private Calendar fechaFinContrato;
 
-        public EmpleadoTemporal(String codigo, String nombre, double salariobase, Calendar fechacontra, Calendar fechaFin) {
+        public EmpleadoTemporal(int codigo, String nombre, double salariobase, Calendar fechacontra, Calendar fechaFin) {
             super(codigo, nombre, fechacontra, salariobase);
             horasTrabajadas = 0;
 
