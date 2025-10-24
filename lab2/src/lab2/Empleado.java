@@ -11,18 +11,18 @@ import java.util.Calendar;
  * @author CarlosXl
  */
 public class Empleado {
-    protected int codigo;
+    protected String codigo;
     String nombre;
     Calendar fechacontra;
     double salariobase;
     double horastrabajadas;
 
-    public Empleado(int codigo, String nombre, double salariobase) {
+    public Empleado(String codigo, String nombre, Calendar fechacontra, double salariobase) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.fechacontra = Calendar.getInstance();
         this.salariobase = salariobase;
-        this.horastrabajadas = 0;
+        horastrabajadas = 0;
     }
 
     public double Horastrabajadas(double horas) {
@@ -33,6 +33,10 @@ public class Empleado {
         }
 
     }
+    
+    protected double CalcularProporcional() {
+        return salariobase * (horastrabajadas / 160.0);
+    }
 
     public double CalculoPago(double horastrabajadas) {
         double salarioproporcional = horastrabajadas / 160;
@@ -40,8 +44,12 @@ public class Empleado {
         return salarioproporcional - descuento;
     }
 
-    public void MostrarInfo() {
-        System.out.println("Codigo del empleado: " + codigo + " Nombre del Empleado:" + nombre + "Fecha de contratacion: " + fechacontra.getTime());
+    public String MostrarInfo() {
+        return "Codigo del empleado: " + codigo + " Nombre del Empleado:" + nombre + "Fecha de contratacion: " + fechacontra.getTime();
 
+    }
+    
+    public double CalcularPagoMensual() {
+        return CalcularProporcional();
     }
 }

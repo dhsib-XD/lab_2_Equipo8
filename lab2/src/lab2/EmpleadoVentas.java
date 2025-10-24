@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package equipo8_lab2;
+package lab2;
 
 /**
  *
@@ -10,15 +10,14 @@ package equipo8_lab2;
  */
 
 import java.util.Calendar;
-import javax.swing.JOptionPane;
 
 public class EmpleadoVentas extends Empleado {
 
     private double[] VentasMensuales = new double[12];
     private double TasaComision;
     
-    public EmpleadoVentas(String Codigo, String Nombre, Calendar FechaContratacion, double SalarioBase, double TasaComision) {
-        super(Codigo, Nombre, FechaContratacion, SalarioBase);
+    public EmpleadoVentas(String codigo, String nombre, Calendar fechacontra, double salariobase, double TasaComision) {
+        super(codigo, nombre, fechacontra, salariobase);
         this.TasaComision = Math.max(0.0, TasaComision);
         
         for (int i = 0; i < VentasMensuales.length; i++) {
@@ -32,11 +31,11 @@ public class EmpleadoVentas extends Empleado {
     
     public void RegistrarVentaMesActual(double monto) {
         if (monto < 0) {
-            JOptionPane.showMessageDialog(this, "El monto tiene que ser mayor a 0", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         int indice = IndiceMesActual();
-        VentasMensuales[indice] = (VentasMensuales[indice] + monto);
+        VentasMensuales[indice] += monto;
     }
     
     public double CalcularComisionMesActual() {
@@ -57,7 +56,28 @@ public class EmpleadoVentas extends Empleado {
         }
         
         return total;
+    }  
+
+    public double getTasaComision() {
+        return TasaComision;
+    }
+
+    public void setTasaComision(double TasaComision) {
+        this.TasaComision = TasaComision;
+    }
+
+    public double[] getVentasMensuales() {
+        double[] copiaventa = new double[VentasMensuales.length];
+        
+        for (int i = 0; i < VentasMensuales.length; i++) {
+            copiaventa[i] = VentasMensuales[i];
+        }
+        
+        return copiaventa;
     }
     
-    
+    @Override
+    public String MostrarInfo() {
+        return super.MostrarInfo() + " | Tipo: Ventas | Comision mes: " + CalcularComisionMesActual() + " | Ventas año: " + CalcularVentasAnuales() + " | Pago: " + CalcularPagoMensual();
+    }
 }
