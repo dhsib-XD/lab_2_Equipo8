@@ -162,6 +162,10 @@ public class EmpresaMain extends JFrame {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }
+    private void generarReporte(){
+        btnReporte.addActionListener(e -> lab2.reporte());
+
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new EmpresaMain().setVisible(true));

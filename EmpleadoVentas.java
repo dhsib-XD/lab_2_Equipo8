@@ -10,7 +10,7 @@ package equipo8_lab2;
  */
 
 import java.util.Calendar;
-import javax.swing.JOptionPane;
+import lab2.Empleado;
 
 public class EmpleadoVentas extends Empleado {
 
@@ -32,7 +32,7 @@ public class EmpleadoVentas extends Empleado {
     
     public void RegistrarVentaMesActual(double monto) {
         if (monto < 0) {
-            JOptionPane.showMessageDialog(this, "El monto tiene que ser mayor a 0", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("El monto tiene que ser mayor a 0");
         }
         
         int indice = IndiceMesActual();

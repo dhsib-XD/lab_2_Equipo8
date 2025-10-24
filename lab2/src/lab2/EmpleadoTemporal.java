@@ -9,6 +9,7 @@ public class EmpleadoTemporal extends Empleado {
         private double horasTrabajadas;
         private Calendar fechaContratacion;
         private Calendar fechaFinContrato;
+        protected String tipoEmpleado = "Temporal";
 
         public EmpleadoTemporal(String codigo, String nombre, double salariobase, Calendar fechacontra, Calendar fechaFin) {
             super(codigo, nombre, fechacontra, salariobase);
@@ -44,6 +45,14 @@ public class EmpleadoTemporal extends Empleado {
         public double calcularPagoMensual() {
             double pago = salarioBase * (horasTrabajadas / 160.0);
             return pago - pago * 0.035;
+        }
+        
+        public void ActualizarFechaFinContrato(Calendar nuevafecha) {
+            if (nuevafecha == null) {
+                this.fechaFinContrato = Calendar.getInstance();
+            } else {
+                this.fechaContratacion.setTime(nuevafecha.getTime());
+            }
         }
     }
 
