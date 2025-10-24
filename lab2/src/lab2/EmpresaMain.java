@@ -89,13 +89,15 @@ public class EmpresaMain extends JFrame {
 
         // === Eventos ===
         btnRegistrar.addActionListener(e -> registrarEmpleado());
-        btnHoras.addActionListener(e -> lab2.registrarHoras(Integer.parseInt(txtCodigo.getText()), Double.parseDouble(txtHoras.getText())));
-        btnVenta.addActionListener(e -> lab2.registrarVenta(Integer.parseInt(txtCodigo.getText()), Double.parseDouble(txtMonto.getText())));
+        btnHoras.addActionListener(e -> lab2.registrarHoras(txtCodigo.getText(), Double.parseDouble(txtHoras.getText())));
+
+        btnVenta.addActionListener(e -> lab2.registrarVenta(txtCodigo.getText(), Double.parseDouble(txtMonto.getText())));
         btnContrato.addActionListener(e -> {
             Date fecha = (Date) spinnerFechaFin.getValue();
             Calendar cal = Calendar.getInstance();
             cal.setTime(fecha);
-            lab2.actualizarFinContrato(Integer.parseInt(txtCodigo.getText()), cal);
+            lab2.actualizarFinContrato(txtCodigo.getText(), cal);
+
         });
         btnReporte.addActionListener(e -> lab2.generarReporte());
 
@@ -129,7 +131,6 @@ public class EmpresaMain extends JFrame {
             String tipo = (String) cboTipo.getSelectedItem();
 
             if (tipo.equals("Estándar")) {
-                lab2.registrarEmpleado(new Empleado(codigo, nombre, salario));
             } else if (tipo.equals("Temporal")) {
                 Date fecha = (Date) spinnerFechaFin.getValue();
                 Calendar cal = Calendar.getInstance();
