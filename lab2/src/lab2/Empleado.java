@@ -40,8 +40,8 @@ public class Empleado {
         return salarioproporcional - descuento;
     }
 
-    public void MostrarInfo() {
-        System.out.println("Codigo del empleado: " + codigo + " Nombre del Empleado:" + nombre + "Fecha de contratacion: " + fechacontra.getTime());
+    public String MostrarInfo() {
+        return "Codigo del empleado: " + codigo + " \nNombre del Empleado:" + nombre + "\nFecha de contratacion: " + fechacontra.getTime();
 
     }
 }
